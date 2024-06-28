@@ -14,9 +14,7 @@ const Main = styled.main`
   box-sizing: border-box;
 `
 
-const Img = styled.img`
-  filter: drop-shadow(0px 7px 5px #22222255);
-`
+const MOVEMENT_AMT = 1.5;
 
 function App() {
   const pixiContainer = useRef(null);
@@ -32,6 +30,16 @@ function App() {
       const app = new Application();
       // backgroundAlpha: 0, 
       await app.init({ width: 400, height: 360 });
+
+      let keys = {};
+      let currentAnimation = 'front';
+
+      const handleKeyDown = (event) => {
+        keys[event.code] = true;
+      };
+      const handleKeyUp = (event) => {
+        keys[event.code] = false;
+      };
       
       const spritesheet = await Assets.load('spritesheets/blackbelt.json');
       await spritesheet.parse();
@@ -39,23 +47,56 @@ function App() {
             
       // set the animation speed
       anim.animationSpeed = 0.1;
-      // play the animation on a loop
-      anim.play();
       // add it to the stage to render
       app.stage.addChild(anim);
       
       // Append the Pixi Canvas to the ref container
       pixiContainer.current.appendChild(app.canvas);
 
-      // Add an animation loop callback to the application's ticker.
-      app.ticker.add((time) =>
-      {
-          //  sprite.rotation += 0.1 * time.deltaTime;
+      const setAnimation = (direction) => {
+        if (currentAnimation !== direction) {
+          anim.textures = spritesheet.animations[direction];
+          anim.play();
+          currentAnimation = direction;
+        }
+      };
+
+      app.ticker.add(() => {
+        let movement = false;
+        if (keys['KeyW']) {
+          movement = true;
+          anim.y -= MOVEMENT_AMT;
+          setAnimation('back');
+        }
+        if (keys['KeyA']) {
+          movement = true;
+          anim.x -= MOVEMENT_AMT;
+          setAnimation('left');
+        }
+        if (keys['KeyS']) {
+          movement = true;
+          anim.y += MOVEMENT_AMT;
+          setAnimation('front');
+        }
+        if (keys['KeyD']) {
+          movement = true;
+          anim.x += MOVEMENT_AMT;
+          setAnimation('right');
+        }
+        if (!movement) {
+          anim.gotoAndStop(0)
+        } else {
+          anim.play()
+        }
       });
 
-      // Cleanup function to remove Pixi Application on unmount
+      window.addEventListener('keydown', handleKeyDown);
+      window.addEventListener('keyup', handleKeyUp);
+
       return () => {
         app.destroy(true, { children: true });
+        window.removeEventListener('keydown', handleKeyDown);
+        window.removeEventListener('keyup', handleKeyUp);
       };
     }
     if (pixiReady) {
@@ -72,10 +113,6 @@ function App() {
     <button disabled={disableLogin} onClick={login}>
       Log in
       </button>
-      <br/>
-      <br/>
-      <div className="card">
-      </div>
       <button onClick={() => setQuestModal(true)}>
         Quest
       </button>
