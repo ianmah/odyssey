@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
-import * as PIXI from 'pixi.js';
+import { Application, Assets, AnimatedSprite, Texture } from 'pixi.js'
 import {usePrivy} from '@privy-io/react-auth'
-import running from '/running.gif'
 import bg3 from '/bg3.webp'
 import styled from 'styled-components'
 import Modal from './components/Modal'
@@ -30,19 +29,29 @@ function App() {
   useEffect(() => {
     setPixiReady(true);
     const initPixi = async () => {
-      // Create the Pixi Application
-      const app = new PIXI.Application();
+      const app = new Application();
+      // backgroundAlpha: 0, 
       await app.init({ width: 400, height: 360 });
+      
+      const spritesheet = await Assets.load('spritesheets/blackbelt.json');
+      await spritesheet.parse();
+      const anim = new AnimatedSprite(spritesheet.animations.front);
+            
+      // set the animation speed
+      anim.animationSpeed = 0.1;
+      // play the animation on a loop
+      anim.play();
+      // add it to the stage to render
+      app.stage.addChild(anim);
+      
       // Append the Pixi Canvas to the ref container
       pixiContainer.current.appendChild(app.canvas);
 
-      // Create a Pixi Graphics object
-      await PIXI.Assets.load('https://pixijs.com/assets/bunny.png');
-      let sprite = PIXI.Sprite.from('https://pixijs.com/assets/bunny.png');
-      // Add the graphics to the stage
-      app.stage.addChild(sprite);
-
-      console.log('hi')
+      // Add an animation loop callback to the application's ticker.
+      app.ticker.add((time) =>
+      {
+          //  sprite.rotation += 0.1 * time.deltaTime;
+      });
 
       // Cleanup function to remove Pixi Application on unmount
       return () => {
@@ -66,7 +75,6 @@ function App() {
       <br/>
       <br/>
       <div className="card">
-        <Img src={running} className="char" width="200" alt="Character sprite" /> 
       </div>
       <button onClick={() => setQuestModal(true)}>
         Quest
