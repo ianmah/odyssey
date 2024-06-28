@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
+import * as PIXI from 'pixi.js';
 import {usePrivy} from '@privy-io/react-auth'
 import running from '/running.gif'
 import bg3 from '/bg3.webp'
@@ -19,12 +20,39 @@ const Img = styled.img`
 `
 
 function App() {
+  const pixiContainer = useRef(null);
+  const [pixiReady, setPixiReady] = useState(false);
   const {ready, authenticated, login, user} = usePrivy();
   // Disable login when Privy is not ready or the user is already authenticated
   const disableLogin = !ready || (ready && authenticated);
   const [questModal, setQuestModal] = useState(false);
 
-  console.log(user)
+  useEffect(() => {
+    setPixiReady(true);
+    const initPixi = async () => {
+      // Create the Pixi Application
+      const app = new PIXI.Application();
+      await app.init({ width: 400, height: 360 });
+      // Append the Pixi Canvas to the ref container
+      pixiContainer.current.appendChild(app.canvas);
+
+      // Create a Pixi Graphics object
+      await PIXI.Assets.load('https://pixijs.com/assets/bunny.png');
+      let sprite = PIXI.Sprite.from('https://pixijs.com/assets/bunny.png');
+      // Add the graphics to the stage
+      app.stage.addChild(sprite);
+
+      console.log('hi')
+
+      // Cleanup function to remove Pixi Application on unmount
+      return () => {
+        app.destroy(true, { children: true });
+      };
+    }
+    if (pixiReady) {
+      initPixi()
+    }
+  }, [pixiReady, setPixiReady]);
 
   return (
     <Main>
@@ -37,27 +65,13 @@ function App() {
       </button>
       <br/>
       <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
       <div className="card">
         <Img src={running} className="char" width="200" alt="Character sprite" /> 
       </div>
       <button onClick={() => setQuestModal(true)}>
         Quest
       </button>
+      <div ref={pixiContainer} />
     </Main>
   )
 }
