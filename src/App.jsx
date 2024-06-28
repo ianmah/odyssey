@@ -31,14 +31,19 @@ function App() {
       // backgroundAlpha: 0, 
       await app.init({ width: 400, height: 360 });
 
-      let keys = {};
+      let keyStack = [];
       let currentAnimation = 'front';
 
       const handleKeyDown = (event) => {
-        keys[event.code] = true;
+        if (!keyStack.includes(event.code)) {
+          keyStack.push(event.code);
+        }
       };
       const handleKeyUp = (event) => {
-        keys[event.code] = false;
+        const index = keyStack.indexOf(event.code);
+        if (index > -1) {
+          keyStack.splice(index, 1);
+        }
       };
       
       const spritesheet = await Assets.load('spritesheets/blackbelt.json');
@@ -63,28 +68,28 @@ function App() {
 
       app.ticker.add(() => {
         let movement = false;
-        if (keys['KeyW']) {
-          movement = true;
-          anim.y -= MOVEMENT_AMT;
-          setAnimation('back');
-        }
-        if (keys['KeyA']) {
-          movement = true;
-          anim.x -= MOVEMENT_AMT;
-          setAnimation('left');
-        }
-        if (keys['KeyS']) {
-          movement = true;
-          anim.y += MOVEMENT_AMT;
-          setAnimation('front');
-        }
-        if (keys['KeyD']) {
-          movement = true;
-          anim.x += MOVEMENT_AMT;
-          setAnimation('right');
+        if (keyStack.length > 0) {
+          const currentKey = keyStack[keyStack.length - 1];
+          if (currentKey === 'KeyW') {
+            movement = true;
+            anim.y -= MOVEMENT_AMT;
+            setAnimation('back');
+          } else if (currentKey === 'KeyA') {
+            movement = true;
+            anim.x -= MOVEMENT_AMT;
+            setAnimation('left');
+          } else if (currentKey === 'KeyS') {
+            movement = true;
+            anim.y += MOVEMENT_AMT;
+            setAnimation('front');
+          } else if (currentKey === 'KeyD') {
+            movement = true;
+            anim.x += MOVEMENT_AMT;
+            setAnimation('right');
+          }
         }
         if (!movement) {
-          anim.gotoAndStop(0)
+            anim.gotoAndStop(0)
         } else {
           anim.play()
         }
