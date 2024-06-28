@@ -14,7 +14,7 @@ const Main = styled.main`
   box-sizing: border-box;
 `
 
-const MOVEMENT_AMT = 1.5;
+const MOVEMENT_AMT = 1;
 
 function App() {
   const pixiContainer = useRef(null);
@@ -29,7 +29,11 @@ function App() {
     const initPixi = async () => {
       const app = new Application();
       // backgroundAlpha: 0, 
-      await app.init({ width: 400, height: 360 });
+      await app.init({ 
+        autoDensity: true,
+        width: 360,
+        height: 360
+      });
 
       let keyStack = [];
       let currentAnimation = 'front';
@@ -51,17 +55,21 @@ function App() {
       const anim = new AnimatedSprite(spritesheet.animations.front);
             
       // set the animation speed
-      anim.animationSpeed = 0.1;
+      anim.animationSpeed = 0.133;
       // add it to the stage to render
       app.stage.addChild(anim);
       
       // Append the Pixi Canvas to the ref container
       pixiContainer.current.appendChild(app.canvas);
+      // Scale the canvas element
+      pixiContainer.current.style.transform = 'scale(1.2)';
+      pixiContainer.current.style['image-rendering'] = 'pixelated';
+      pixiContainer.current.style.transformOrigin = 'top left';
 
       const setAnimation = (direction) => {
         if (currentAnimation !== direction) {
+          anim.gotoAndPlay(1);
           anim.textures = spritesheet.animations[direction];
-          anim.play();
           currentAnimation = direction;
         }
       };
@@ -91,7 +99,7 @@ function App() {
         if (!movement) {
             anim.gotoAndStop(0)
         } else {
-          anim.play()
+          anim.play();
         }
       });
 
