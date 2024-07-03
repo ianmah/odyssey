@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
+import { Application, Assets, AnimatedSprite, Texture } from 'pixi.js'
 import {usePrivy} from '@privy-io/react-auth'
-import running from '/running.gif'
 import bg3 from '/bg3.webp'
 import styled from 'styled-components'
 import Modal from './components/Modal'
@@ -14,17 +14,108 @@ const Main = styled.main`
   box-sizing: border-box;
 `
 
-const Img = styled.img`
-  filter: drop-shadow(0px 7px 5px #22222255);
-`
+const MOVEMENT_AMT = 1;
 
 function App() {
+  const pixiContainer = useRef(null);
+  const [pixiReady, setPixiReady] = useState(false);
   const {ready, authenticated, login, user} = usePrivy();
   // Disable login when Privy is not ready or the user is already authenticated
   const disableLogin = !ready || (ready && authenticated);
   const [questModal, setQuestModal] = useState(false);
 
-  console.log(user)
+  useEffect(() => {
+    setPixiReady(true);
+    const initPixi = async () => {
+      const app = new Application();
+      // backgroundAlpha: 0, 
+      await app.init({ 
+        autoDensity: true,
+        width: 360,
+        height: 360
+      });
+
+      let keyStack = [];
+      let currentAnimation = 'front';
+
+      const handleKeyDown = (event) => {
+        if (!keyStack.includes(event.code)) {
+          keyStack.push(event.code);
+        }
+      };
+      const handleKeyUp = (event) => {
+        const index = keyStack.indexOf(event.code);
+        if (index > -1) {
+          keyStack.splice(index, 1);
+        }
+      };
+      
+      const spritesheet = await Assets.load('spritesheets/blackbelt.json');
+      await spritesheet.parse();
+      const anim = new AnimatedSprite(spritesheet.animations.front);
+            
+      // set the animation speed
+      anim.animationSpeed = 0.133;
+      // add it to the stage to render
+      app.stage.addChild(anim);
+      
+      // Append the Pixi Canvas to the ref container
+      pixiContainer.current.appendChild(app.canvas);
+      // Scale the canvas element
+      pixiContainer.current.style.transform = 'scale(1.2)';
+      pixiContainer.current.style['image-rendering'] = 'pixelated';
+      pixiContainer.current.style.transformOrigin = 'top left';
+
+      const setAnimation = (direction) => {
+        if (currentAnimation !== direction) {
+          anim.gotoAndPlay(1);
+          anim.textures = spritesheet.animations[direction];
+          currentAnimation = direction;
+        }
+      };
+
+      app.ticker.add(() => {
+        let movement = false;
+        if (keyStack.length > 0) {
+          const currentKey = keyStack[keyStack.length - 1];
+          if (currentKey === 'KeyW') {
+            movement = true;
+            anim.y -= MOVEMENT_AMT;
+            setAnimation('back');
+          } else if (currentKey === 'KeyA') {
+            movement = true;
+            anim.x -= MOVEMENT_AMT;
+            setAnimation('left');
+          } else if (currentKey === 'KeyS') {
+            movement = true;
+            anim.y += MOVEMENT_AMT;
+            setAnimation('front');
+          } else if (currentKey === 'KeyD') {
+            movement = true;
+            anim.x += MOVEMENT_AMT;
+            setAnimation('right');
+          }
+        }
+        if (!movement) {
+            anim.gotoAndStop(0)
+        } else {
+          anim.play();
+        }
+      });
+
+      window.addEventListener('keydown', handleKeyDown);
+      window.addEventListener('keyup', handleKeyUp);
+
+      return () => {
+        app.destroy(true, { children: true });
+        window.removeEventListener('keydown', handleKeyDown);
+        window.removeEventListener('keyup', handleKeyUp);
+      };
+    }
+    if (pixiReady) {
+      initPixi()
+    }
+  }, [pixiReady, setPixiReady]);
 
   return (
     <Main>
@@ -35,29 +126,10 @@ function App() {
     <button disabled={disableLogin} onClick={login}>
       Log in
       </button>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <div className="card">
-        <Img src={running} className="char" width="200" alt="Character sprite" /> 
-      </div>
       <button onClick={() => setQuestModal(true)}>
         Quest
       </button>
+      <div ref={pixiContainer} />
     </Main>
   )
 }
