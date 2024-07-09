@@ -172,6 +172,7 @@ function App() {
         }
         anim.x += dx;
         anim.y += dy;
+        return dx !== 0 || dy !== 0;
       }
 
       app.ticker.add(() => {
@@ -179,20 +180,16 @@ function App() {
         if (keyStack.length > 0) {
           const currentKey = keyStack[keyStack.length - 1];
           if (currentKey === 'KeyW') {
-            movement = true;
-            move(0, -MOVEMENT_AMT);
+            movement = move(0, -MOVEMENT_AMT)
             setAnimation('back');
           } else if (currentKey === 'KeyA') {
-            movement = true;
-            move(-MOVEMENT_AMT, 0)
+            movement = move(-MOVEMENT_AMT, 0)
             setAnimation('left');
           } else if (currentKey === 'KeyS') {
-            movement = true;
-            move(0, MOVEMENT_AMT)
+            movement = move(0, MOVEMENT_AMT)
             setAnimation('front');
           } else if (currentKey === 'KeyD') {
-            movement = true;
-            move(MOVEMENT_AMT, 0)
+            movement = move(MOVEMENT_AMT, 0)
             setAnimation('right');
           }
         }
