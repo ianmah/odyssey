@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { Application, Assets, AnimatedSprite, Texture } from 'pixi.js'
+import { Application, Assets, AnimatedSprite, Sprite } from 'pixi.js'
 import {usePrivy} from '@privy-io/react-auth'
 import bg3 from '/bg3.webp'
 import styled from 'styled-components'
@@ -14,7 +14,7 @@ const Main = styled.main`
   box-sizing: border-box;
 `
 
-const MOVEMENT_AMT = 1;
+const MOVEMENT_AMT = 0.75;
 
 function App() {
   const pixiContainer = useRef(null);
@@ -28,11 +28,12 @@ function App() {
     setPixiReady(true);
     const initPixi = async () => {
       const app = new Application();
-      // backgroundAlpha: 0, 
       await app.init({ 
         autoDensity: true,
         width: 360,
-        height: 360
+        height: 720,
+        antialias: false,
+        // backgroundAlpha: 0, 
       });
 
       let keyStack = [];
@@ -49,6 +50,11 @@ function App() {
           keyStack.splice(index, 1);
         }
       };
+
+      const bgSprite = await Assets.load('spritesheets/bg.png');
+      bgSprite.source.scaleMode = 'nearest';
+      const background = new Sprite(bgSprite);
+      background.scale.set(2, 2);
       
       const spritesheet = await Assets.load('spritesheets/blackbelt.json');
       await spritesheet.parse();
@@ -57,20 +63,35 @@ function App() {
       const buddySpritesheet = await Assets.load('spritesheets/tatsugiri.json');
       await buddySpritesheet.parse();
       const buddy = new AnimatedSprite(buddySpritesheet.animations.front);
-
+   
+      // Set scaleMode for each texture in the spritesheet
+      for (const textureKey in spritesheet.textures) {
+        const texture = spritesheet.textures[textureKey];
+        texture.baseTexture.scaleMode = 'nearest'; // Set nearest filtering for sharp edges
+      }
+      // Set scaleMode for each texture in the spritesheet
+      for (const textureKey in buddySpritesheet.textures) {
+        const texture = buddySpritesheet.textures[textureKey];
+        texture.baseTexture.scaleMode = 'nearest'; // Set nearest filtering for sharp edges
+      }
 
       function getPixelData(sprite) {
-        const bounds = sprite.getBounds();
         const texture = sprite.texture;
-        
         const canvas = document.createElement('canvas');
-        canvas.width = bounds.width;
-        canvas.height = bounds.height;
-    
         const context = canvas.getContext('2d');
-        context.drawImage(texture.source.resource, 0, 0);
     
-        return context.getImageData(0, 0, bounds.width, bounds.height).data;
+        // Scale the canvas size by the sprite's scale
+        // const scale = sprite.scale;
+        const width = texture.width * 2;
+        const height = texture.height * 2;
+    
+        canvas.width = width;
+        canvas.height = height;
+    
+        // Draw the texture to the canvas, scaling it
+        context.drawImage(texture.source.resource, 0, 0, texture.width, texture.height, 0, 0, width, height);
+    
+        return context.getImageData(0, 0, width, height).data;
     }
     
       anim.animationSpeed = 0.133;
@@ -78,12 +99,15 @@ function App() {
       anim.x = app.screen.width / 2;
       anim.y = app.screen.height / 2;
       anim.pixelData = getPixelData(anim);
+      anim.scale.set(2, 2);
 
       buddy.y = 32;
       buddy.x = app.screen.width / 2;
       buddy.anchor.set(0.5);
       buddy.pixelData = getPixelData(buddy);
+      buddy.scale.set(2, 2);
             
+      app.stage.addChild(background);
       app.stage.addChild(anim);
       app.stage.addChild(buddy);
       
@@ -170,8 +194,9 @@ function App() {
               break;
           }
         }
-        anim.x += dx;
-        anim.y += dy;
+        // anim.x += dx;
+        // anim.y += dy;
+        anim.position.set(Math.round(anim.x + dx), Math.round(anim.y + dy));
         return dx !== 0 || dy !== 0;
       }
 
