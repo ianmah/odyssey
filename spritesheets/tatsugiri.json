@@ -1,0 +1,146 @@
+{"frames": {
+
+"back-0.png":
+{
+	"frame": {"x":1,"y":27,"w":16,"h":11},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":11},
+	"sourceSize": {"w":16,"h":11}
+},
+"back-1.png":
+{
+	"frame": {"x":1,"y":27,"w":16,"h":11},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":11},
+	"sourceSize": {"w":16,"h":11}
+},
+"back-2.png":
+{
+	"frame": {"x":1,"y":40,"w":16,"h":11},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":11},
+	"sourceSize": {"w":16,"h":11}
+},
+"back-3.png":
+{
+	"frame": {"x":1,"y":40,"w":16,"h":11},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":11},
+	"sourceSize": {"w":16,"h":11}
+},
+"front-0.png":
+{
+	"frame": {"x":19,"y":41,"w":16,"h":11},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":11},
+	"sourceSize": {"w":16,"h":11}
+},
+"front-1.png":
+{
+	"frame": {"x":19,"y":41,"w":16,"h":11},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":11},
+	"sourceSize": {"w":16,"h":11}
+},
+"front-2.png":
+{
+	"frame": {"x":1,"y":53,"w":16,"h":10},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":10},
+	"sourceSize": {"w":16,"h":10}
+},
+"front-3.png":
+{
+	"frame": {"x":1,"y":53,"w":16,"h":10},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":10},
+	"sourceSize": {"w":16,"h":10}
+},
+"left-0.png":
+{
+	"frame": {"x":21,"y":1,"w":18,"h":10},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":18,"h":10},
+	"sourceSize": {"w":18,"h":10}
+},
+"left-1.png":
+{
+	"frame": {"x":21,"y":1,"w":18,"h":10},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":18,"h":10},
+	"sourceSize": {"w":18,"h":10}
+},
+"left-2.png":
+{
+	"frame": {"x":1,"y":1,"w":18,"h":11},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":18,"h":11},
+	"sourceSize": {"w":18,"h":11}
+},
+"left-3.png":
+{
+	"frame": {"x":1,"y":1,"w":18,"h":11},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":18,"h":11},
+	"sourceSize": {"w":18,"h":11}
+},
+"right-0.png":
+{
+	"frame": {"x":1,"y":14,"w":18,"h":11},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":18,"h":11},
+	"sourceSize": {"w":18,"h":11}
+},
+"right-1.png":
+{
+	"frame": {"x":1,"y":14,"w":18,"h":11},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":18,"h":11},
+	"sourceSize": {"w":18,"h":11}
+},
+"right-2.png":
+{
+	"frame": {"x":21,"y":21,"w":18,"h":10},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":18,"h":10},
+	"sourceSize": {"w":18,"h":10}
+},
+"right-3.png":
+{
+	"frame": {"x":21,"y":21,"w":18,"h":10},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":18,"h":10},
+	"sourceSize": {"w":18,"h":10}
+}},
+"animations": {
+	"back": ["back-0.png","back-1.png","back-2.png","back-3.png"],
+	"front": ["front-0.png","front-1.png","front-2.png","front-3.png"],
+	"left": ["left-0.png","left-1.png","left-2.png","left-3.png"],
+	"right": ["right-0.png","right-1.png","right-2.png","right-3.png"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.1",
+	"image": "tatsugiri.png",
+	"format": "RGBA8888",
+	"size": {"w":32,"h":64},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:9615112bf62ef39983bf515e6045c4d8:028242dbb8d8e31af991b44385606ed6:dc429805245bf53fa90fe58cf66fa30f$"
+}
+}
