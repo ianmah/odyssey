@@ -6,8 +6,8 @@ import styled from "styled-components";
 import Modal from "./components/Modal";
 import "./App.css";
 import Button from "./components/Button";
-import styled from 'styled-components'
-import Modal from './components/Modal'
+import CharacterMenu from "./components/CharacterMenu";
+import Card from "./components/Card";
 
 const Main = styled.main`
   background: url(${bg4});
@@ -16,18 +16,11 @@ const Main = styled.main`
   min-height: 100vh;
   box-sizing: border-box;
   width: 46vh;
+  position: relative;
 `;
 
 const Img = styled.img`
   filter: drop-shadow(0px 7px 5px #22222255);
-`;
-
-const Card = styled.div`
-  padding: 1em;
-  width: 280px;
-  background: white;
-  border-radius: 1em;
-  margin: 1em;
 `;
 
 const ButtonMenu = styled.div`
@@ -60,10 +53,7 @@ function App() {
       <button disabled={disableLogin} onClick={login}>
         Log in
       </button>
-      <br />
-      <br />
-      <br />
-      <br />
+      <CharacterMenu />
       <br />
       <br />
       <br />
