@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import profile from "/profile.png";
 import Card from "./Card";
+import Bar from "./Bar";
 
 const Avatar = styled.img`
   width: 72px;
@@ -44,8 +45,14 @@ const CharacterMenu = () => {
         <CharacterName>Sakura</CharacterName>
         <StatsContainer>
           <span>Lv. 30</span>
-          <span>HP: 2500/2500</span>
-          <span>MP: 1000/1000</span>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <span style={{ marginRight: '10px' }}>HP: </span>
+            <Bar current={1000} max={2500} type="HP" />
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <span style={{ marginRight: '10px' }}>MP: </span>
+            <Bar current={1000} max={1000} type="MP" />
+          </div>
         </StatsContainer>
       </CharacterInfo>
     </MenuContainer>
