@@ -16,11 +16,14 @@ const CharacterInfo = styled.div`
 
 const CharacterName = styled.h3`
   margin: 0;
+  font-size: 1.4em;
+  text-transform: uppercase;
 `;
 
 const StatsContainer = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 2px;
   font-size: 0.9em;
 `;
 
@@ -42,16 +45,15 @@ const CharacterMenu = () => {
     <MenuContainer>
       <Avatar src={profile} alt="Profile Pic" />
       <CharacterInfo>
-        <CharacterName>Sakura</CharacterName>
+          <CharacterName>SloshJosh</CharacterName>
         <StatsContainer>
-          <span>Lv. 30</span>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <span style={{ marginRight: '10px' }}>MP: </span>
+            <Bar current={800} max={1000} type="LVL" />
+          </div>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <span style={{ marginRight: '10px' }}>HP: </span>
             <Bar current={1000} max={2500} type="HP" />
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span style={{ marginRight: '10px' }}>MP: </span>
-            <Bar current={1000} max={1000} type="MP" />
           </div>
         </StatsContainer>
       </CharacterInfo>

@@ -21,7 +21,7 @@ const HPBar = styled(BarFill)`
 `;
 
 const MPBar = styled(BarFill)`
-  background-color: #5555ff;
+  background-color: #FFCC69;
   width: ${props => props.percentage}%;
 `;
 

@@ -3,6 +3,21 @@ import ReactDOM from 'react-dom/client'
 import {PrivyProvider} from '@privy-io/react-auth';
 import App from './App.jsx'
 import './index.css'
+import { createGlobalStyle } from 'styled-components';
+
+const GlobalStyle = createGlobalStyle`
+  @font-face {
+    font-family: 'Joystix';
+    src: url('/joystix.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  body {
+    font-family: 'Joystix', monospace;
+    font-size: 13px;
+  }
+`;
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -22,6 +37,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         },
       }}
     >
+      <GlobalStyle />
       <App />
     </PrivyProvider>
   </React.StrictMode>,
