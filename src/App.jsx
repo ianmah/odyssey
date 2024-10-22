@@ -1,13 +1,13 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect } from "react";
 import { usePrivy } from "@privy-io/react-auth";
 import running from "/running.gif";
 import bg4 from "/bg4.png";
-import styled from "styled-components";
 import Modal from "./components/Modal";
 import "./App.css";
 import Button from "./components/Button";
 import CharacterMenu from "./components/CharacterMenu";
 import Card from "./components/Card";
+import styled from "styled-components";
 
 const Main = styled.main`
   background: url(${bg4});
