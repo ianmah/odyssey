@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { usePrivy } from "@privy-io/react-auth";
-import running from "/running.gif";
+import char4x from "/char4x.png";
 import bg4 from "/bg4.png";
 import bg1 from "/bg1.png";
 import cz from "/cz.png";
@@ -23,6 +23,9 @@ const Main = styled.main`
 
 const Img = styled.img`
   filter: drop-shadow(0px 7px 5px #22222255);
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 `;
 
 const ButtonMenu = styled.div`
@@ -99,36 +102,20 @@ function App() {
           Log Out
         </button>
       </div>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <div className="card">
+      <div style={{ marginTop: '50vh', textAlign: 'center', lineHeight: '1em' }}>
         <Img
-          src={running}
+          src={char4x}
           className="char"
-          width="200"
+          width="80"
           alt="Character sprite"
         />
+        <span style={{
+          display: 'block', 
+          color: 'white', 
+          textShadow: '0px 0px 6px black, 0px 0px 6px black, 0px 0px 6px black, 0px 0px 6px black',
+        }}>
+          SloshJosh
+        </span>
       </div>
       <ButtonMenu>
         <Button>Bag</Button>

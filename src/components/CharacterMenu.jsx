@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import profile from "/profile.png";
+import profile from "/charhd.png";
 import Card from "./Card";
 import Bar from "./Bar";
 
 const Avatar = styled.img`
   width: 72px;
   height: 72px;
-  border-radius: 25px;
+  border-radius: 100%;
+  background: linear-gradient(to bottom right, #c2e0ff, #4da6ff);
 `;
 
 const CharacterInfo = styled.div`
