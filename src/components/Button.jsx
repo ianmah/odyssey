@@ -13,4 +13,7 @@ export default styled.button`
   &:hover {
     background-color: rgba(29, 34, 42, 0.95);
   }
+  &:focus {
+    outline: none;
+  }
 `;

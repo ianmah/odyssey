@@ -3,6 +3,7 @@ import { usePrivy } from "@privy-io/react-auth";
 import char4x from "/char4x.png";
 import bg4 from "/bg4.png";
 import bg1 from "/bg1.png";
+import forest from "/forest.png";
 import Modal from "./components/Modal";
 import "./App.css";
 import Button from "./components/Button";
@@ -10,6 +11,7 @@ import CharacterMenu from "./components/CharacterMenu";
 import Card from "./components/Card";
 import styled from "styled-components";
 import Login from "./pages/Login";
+import Quest from "./pages/Quest";
 
 const Main = styled.main`
   background: url(${p => p.authenticated ? p.bg : bg1});
@@ -74,7 +76,7 @@ function App() {
       case 'bag':
         return <div>Bag Page</div>;
       case 'dojo':
-        return <div>Dojo Page</div>;
+        return <Quest />;
       default:
         return null;
     }
@@ -86,7 +88,7 @@ function App() {
       case 'bag':
         return bg4;
       case 'dojo':
-        return 'url("/bg-dojo.png")';
+        return forest;
       default:
         return 'url("/bg-default.png")';
     }
@@ -99,7 +101,7 @@ function App() {
   {authenticated && (
     <ButtonMenu>
       <Button onClick={() => setCurrentPage('bag')}>Bag</Button>
-      <Button onClick={() => setCurrentPage('dojo')}>Dojo</Button>
+      <Button onClick={() => setCurrentPage('dojo')}>Quest</Button>
       <Button onClick={() => setCurrentPage('main')}>Map</Button>
     </ButtonMenu>
   )}
