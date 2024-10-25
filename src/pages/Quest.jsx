@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import Card from '../components/Card';
 
 const QuestContainer = styled.div`
   display: flex;
@@ -23,16 +24,14 @@ const NuxOverlay = styled.div`
   background-color: rgba(0, 0, 0, 0.7);
 `;
 
-const NuxContent = styled.div`
+const NuxContent = styled(Card)`
   position: absolute;
   bottom: 30vh;
   width: 80%;
+  padding: 2em;
+  text-align: center;
   left: 50%;
   transform: translateX(-50%);
-  background-color: white;
-  padding: 2em;
-  border-radius: 8px;
-  text-align: center;
 `;
 
 const Quest = () => {
